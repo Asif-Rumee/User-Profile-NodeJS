@@ -1,0 +1,21 @@
+{
+  "name": "User_Profile",
+  "version": "1.0.0",
+  "description": "Sign-Up and Sign-In system with Forgot Password Recovery and Firebase Notification",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Asif Rahman Rumee",
+  "license": "ISC",
+  "dependencies": {
+    "alert": "^5.0.12",
+    "dotenv": "^8.2.0",
+    "firebase": "^9.8.3",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.7.5"
+  }
+}
