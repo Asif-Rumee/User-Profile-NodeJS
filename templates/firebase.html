@@ -1,75 +1,32 @@
-<html>
-    <title>Firebase Messaging Demo</title>
-    <style>
-        div {
-            margin-bottom: 15px;
-        }
-    </style>
-    <body>
-        <div id="token"></div>
-        <div id="msg"></div>
-        <div id="notis"></div>
-        <div id="err"></div>
-        <!-- The core Firebase JS SDK is always required and must be listed first -->
-        <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-messaging.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
 
-        <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-messaging.js"></script>
-        <script>
-            if ('serviceWorker' in navigator) {
-              window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/firebase-messaging-sw.js');
-              });
-            }
-        </script>
-        <script>
-            MsgElem = document.getElementById('msg');
-            TokenElem = document.getElementById('token');
-            NotisElem = document.getElementById('notis');
-            ErrElem = document.getElementById('err');
+    <button class="btn btn-primary" onClick="subscribe()">Subscribe</button>
+    <div id="showToken"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 my-5">
+                <h3>Send Notification</h3>
+                <input type="text" class="form-control my-2" id="usertoken" placeholder="Enter Token">
+                <input type="text" class="form-control my-2" placeholder="Title" id="title">
+                <input type="text" class="form-control my-2s" placeholder="Msg" id="msg">
+                <br>
+                <button class="btn btn-primary" onClick="sendNotification()">Send</button>
+            </div>
+        </div>
+    </div>
 
-            // TODO: Replace firebaseConfig you get from Firebase Console
-            var firebaseConfig = {
-                // apiKey: ...
-                // projectId: ...
-                // messagingSenderId: ...
-                // appId: ...
-                // ...other configs...
-            };
-            firebase.initializeApp(firebaseConfig);
-
-            const messaging = firebase.messaging();
-            messaging
-                .requestPermission()
-                .then(function () {
-                    MsgElem.innerHTML = 'Notification permission granted.';
-                    console.log('Notification permission granted.');
-
-                    // get the token in the form of promise
-                    return messaging.getToken();
-                })
-                .then(function (token) {
-                    TokenElem.innerHTML = 'Device token is : <br>' + token;
-                })
-                .catch(function (err) {
-                    ErrElem.innerHTML = ErrElem.innerHTML + '; ' + err;
-                    console.log('Unable to get permission to notify.', err);
-                });
-
-            let enableForegroundNotification = true;
-            messaging.onMessage(function (payload) {
-                console.log('Message received. ', payload);
-                NotisElem.innerHTML =
-                    NotisElem.innerHTML + JSON.stringify(payload);
-
-                if (enableForegroundNotification) {
-                    let notification = payload.notification;
-                    navigator.serviceWorker
-                        .getRegistrations()
-                        .then((registration) => {
-                            registration[0].showNotification(notification.title);
-                        });
-                }
-            });
-        </script>
-    </body>
+    <script src="../public/firebase.js"></script>
+    
+</body>
 </html>
